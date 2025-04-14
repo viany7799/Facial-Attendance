@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Camera Frames</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+  <button id="start-button">Start</button>
+  <button id="stop-button">Stop</button>
+  <button onclick="callMyFunction()">Download</button>
+  <video id="video" width="640" height="480"></video>
+  <ul id="myList"></ul>
+
+  {% csrf_token %}
+  <script>
+   const video = document.getElementById('video');
+const startButton = document.getElementById('start-button');
+const stopButton = document.getElementById('stop-button');
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+let stream, intervalId;
+let uni_names=new Set();
+
+function captureFrame() {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.drawImage(video, 0, 0);
+  const imageData = canvas.toDataURL('image/png');
+  const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+  fetch('/process_frames/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRFToken': csrfToken,
+    },
+    body: new URLSearchParams({
+      'frame_data': imageData
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    //console.log(data.result);
+    let re=data.result;
+
+    if(re !=null )
+    {
+    const myList = document.getElementById("myList");
+  const newItem = document.createElement("li");
+  newItem.textContent = data.result;
+  const values = Array.from(myList.children).map(item => item.textContent);
+  if (!values.includes(newItem.textContent)) {
+    myList.appendChild(newItem);
+  }
+
+    }
+
+  });
+}
+
+startButton.addEventListener('click', () => {
+  navigator.mediaDevices.getUserMedia({video: true})
+  .then(str => {
+    stream = str;
+    video.srcObject = stream;
+    video.play();
+    intervalId = setInterval(captureFrame, 500); // send frame every 1 second
+  });
+});
+
+stopButton.addEventListener('click', () => {
+  stream.getTracks().forEach(track => track.stop());
+  clearInterval(intervalId);
+});
+
+    function callMyFunction() {
+        $.ajax({
+            url: "{% url 'download' %}",
+            type: "GET",
+            success: function(response) {
+                alert(response);
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

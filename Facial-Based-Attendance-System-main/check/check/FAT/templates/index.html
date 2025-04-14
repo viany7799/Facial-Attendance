@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Input Parameters</title>
+    <style>
+       body {
+          font-family: Arial, sans-serif;
+          background-color: hsl(200, 8%, 78%);
+       }
+
+       header {
+          background-color: #0a0c0a;
+          color: white;
+          padding: 20px;
+          text-align: center;
+       }
+
+       h1 {
+          margin: 0;
+          font-size: 36px;
+       }
+
+       form {
+          background-color: #ffffff;
+          border-radius: 5px;
+          padding: 20px;
+          margin: 20px auto;
+          width: 400px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+       }
+
+       label {
+          display: block;
+          margin-bottom: 10px;
+          font-weight: bold;
+          color: #333333;
+       }
+
+       select {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 20px;
+          border-radius: 5px;
+          border: 1px solid #cccccc;
+          background-color: #ffffff;
+          color: #333333;
+          font-size: 16px;
+       }
+
+       input[type="date"] {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 20px;
+          border-radius: 5px;
+          border: 1px solid #cccccc;
+          background-color: #ffffff;
+          color: #333333;
+          font-size: 16px;
+       }
+
+       input[type="submit"] {
+          display: block;
+          margin: 20px auto 0;
+          padding: 10px 20px;
+          border-radius: 5px;
+          border: none;
+          background-color: #2648c1;
+          color: #ffffff;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+       }
+
+       input[type="submit"]:hover {
+           background-color: #17232c;
+       }
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Enter the Class Details</h1>
+    </header>
+    <form action="home" method="post">
+       {% csrf_token %}
+      <label for="year">Year:</label>
+      <select name="year" id="year">
+        <option value="first">First Year</option>
+        <option value="second">Second Year</option>
+        <option value="third">Third Year</option>
+        <option value="fourth">Fourth Year</option>
+      </select>
+
+      <br>
+
+      <label for="branch">Branch:</label>
+      <select name="branch" id="branch">
+        <option value="cse">Computer Science and Engineering</option>
+        <option value="ece">Electronics and Communication Engineering</option>
+        <option value="mech">Mechanical Engineering</option>
+        <option value="civil">Civil Engineering</option>
+      </select>
+
+      <br>
+
+
+      <label for="section">Section:</label>
+      <select name="section" id="section">
+        <option value="a">Section A</option>
+        <option value="b">Section B</option>
+        <option value="c">Section C</option>
+        <option value="d">Section D</option>
+      </select>
+
+      <br>
+
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date">
+      <br>
+
+
+      <label for="period">Period:</label>
+      <select name="period" id="period">
+        <option value="1">Period 1</option>
+        <option value="2">Period 2</option>
+        <option value="3">Period 3</option>
+        <option value="4">Period 4</option>
+      </select>
+
+
+
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
